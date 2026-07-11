@@ -20,9 +20,12 @@ button {
   transition: 1s;
   text-transform: uppercase;
   font-family: inherit;
+
 }
 button:hover {
   transform: scale(0.8);
+  box-shadow:0 0 20px cyan;
+
 }
 
 * {
