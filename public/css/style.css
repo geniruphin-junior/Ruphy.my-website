@@ -157,7 +157,7 @@ nav {
   gap: 2rem;
 }
 
-/* --- CARTES PRO --- */
+/* --- CARTES DES LANGUAGES --- */
 .card {
   background: #0f172a;
   border: 1px solid var(--border);
@@ -231,7 +231,7 @@ nav {
   --card-color: #00599c;
 }
 .java {
-  --card-color: var(--accent-orange);
+  --card-color: var(--accent-green);
 }
 .html {
   --card-color: var(--accent-red);
