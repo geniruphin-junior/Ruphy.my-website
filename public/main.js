@@ -1,7 +1,19 @@
-// Lance l'horloge et la met à jour toutes les 1000ms (1 seconde)
-setInterval(updateClock, 1000);
-updateClock(); // Appel immédiat pour éviter le délai de 1s au chargement
+// definitions des boutons des langages
+const python = document
+  .querySelector("#btn-py")
+  .addEventListener("click", () => {
+    window.open("https://www.youtube.com/watch?v=rfscVS0vtbw");
+  });
 
+const cpp = document.querySelector("#btn-cpp").addEventListener("click", () => {
+  window.open("https://www.youtube.com/watch?v=ZzaPdXTrSb8");
+});
+const back = document
+  .querySelector("#btn-backend")
+  .addEventListener("click", () => {
+    window.open("");
+  });
+const frontend = document.querySelector("#");
 // Fonction vocale "Pro" pour Ruphy
 function speak(text) {
   const synth = window.speechSynthesis;
