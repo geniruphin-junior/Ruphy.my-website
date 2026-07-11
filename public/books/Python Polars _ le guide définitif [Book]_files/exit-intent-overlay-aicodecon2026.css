@@ -1,0 +1,32 @@
+.exitIntentOverlay {
+  .exitIntentOverlay-contents.aicodecon {
+    max-width: 600px;
+    padding: 0;
+    background: rgb(18, 25, 38);
+    position: relative;
+    overflow: hidden;
+
+    .exitIntentOverlay-columns {
+      z-index: 1;
+    }
+
+    .exitIntentOverlay-linkedImage {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      opacity: 1;
+
+      &:hover, &:focus {
+        text-decoration: none;
+        opacity: 1;
+      }
+      
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}
+
+

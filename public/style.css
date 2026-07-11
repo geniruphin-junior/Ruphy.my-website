@@ -1,0 +1,245 @@
+/* --- SYSTÈME DE DESIGN RUPHY ULTRA-PRO --- */
+:root {
+  --bg: #030712;
+  --surface: #0f172a;
+  --accent-blue: #00d4ff;
+  --accent-green: #00ff9d;
+  --accent-orange: #f8981d;
+  --accent-red: #e34f26;
+  --glass: rgba(15, 23, 42, 0.9);
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: #f1f5f9;
+  font-family: "Fira Code", "JetBrains Mono", monospace;
+}
+
+/* --- NAVIGATION --- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.time {
+  color: var(--accent-blue);
+}
+
+.brand {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 26px;
+}
+.brand span {
+  color: var(--accent-blue);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+/* --- BIBLIOTHÈQUE SCIENTIFIQUE (DROPDOWN) --- */
+.dropdown {
+  position: relative;
+}
+.dropbtn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 1s;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+.dropbtn:hover {
+  background: var(--accent-blue);
+  color: #000;
+  box-shadow: 0 0 25px var(--accent-blue);
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background: #0f172a;
+
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+  }
+  top: 110%;
+  background: #0f172a;
+  min-width: 320px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: #94a3b8;
+  padding: 15px 20px;
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.dropdown-content a:hover {
+  background: rgba(0, 212, 255, 0.05);
+  color: var(--accent-green);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* --- HERO SECTION --- */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  background: radial-gradient(circle at center, #1e293b 0%, #030712 100%);
+}
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+.hero p {
+  color: red;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* --- GRILLE DE COURS --- */
+.grid-container {
+  max-width: 1500px;
+  margin: 0 auto 100px;
+  padding: 0 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* --- CARTES PRO --- */
+.card {
+  background: #0f172a;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card:hover {
+  transform: translateY(-12px);
+  border-color: var(--card-color, var(--accent-blue));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.code-snippet {
+  background: #010409;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin: 15px 0;
+  color: #8b949e;
+  border-left: 3px solid var(--card-color);
+}
+.card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+.card p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.footer {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.btn-run {
+  background: var(--card-color);
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: 0.2s;
+}
+.btn-run:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+
+/* --- VARIANTES DE COULEURS PAR LANGAGE --- */
+.python {
+  --card-color: var(--accent-blue);
+}
+.cpp {
+  --card-color: #00599c;
+}
+.java {
+  --card-color: var(--accent-orange);
+}
+.html {
+  --card-color: var(--accent-red);
+}
+
+.tag-py {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--accent-blue);
+}
+.tag-cpp {
+  background: rgba(0, 89, 156, 0.1);
+  color: #6495ed;
+}
+.tag-java {
+  background: rgba(248, 152, 29, 0.1);
+  color: var(--accent-orange);
+}
+.tag-html {
+  background: rgba(227, 79, 38, 0.1);
+  color: var(--accent-red);
+}
+.card-cpp a {
+  text-decoration: none;
+}
+.grid-container a {
+  text-decoration: none;
+  color: #030712;
+  font-family: "Courier New", Courier, monospace;
+}

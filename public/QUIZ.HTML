@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chimie Pro + Audio Quiz</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(18, 1fr); gap: 4px; width: 95vw; }
+        .el { background: #1e293b; border: 1px solid #334155; padding: 4px; text-align: center; border-radius: 4px; cursor: pointer; transition: 0.2s; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; }
+        .el:hover { transform: scale(1.3); z-index: 10; border-color: #38bdf8; }
+        .sym { font-weight: bold; font-size: 1.1rem; }
+        .num { font-size: 0.6rem; opacity: 0.7; }
+        
+        #quiz-box { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 15px; width: 90%; max-width: 600px; text-align: center; border: 2px solid #38bdf8; }
+        button { background: #38bdf8; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        input { padding: 8px; border-radius: 5px; border: none; width: 100px; text-align: center; }
+        .win { color: #4ade80; font-weight: bold; }
+        .lose { color: #f87171; }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-box">
+        <h3>🧪 Quiz d'entraînement</h3>
+        <p id="question">Clique sur "Démarrer" pour jouer !</p>
+        <input type="text" id="answer" placeholder="Nom ?">
+        <button onclick="checkAnswer()">Vérifier</button>
+        <button onclick="nextQuestion()">Démarrer / Suivant</button>
+        <p id="feedback"></p>
+    </div>
+
+    <div class="grid" id="table"></div>
+
+    <script>
+        const elements = [
+            {n:1, s:"H", name:"Hydrogène", x:1, y:1, desc:"L'élément le plus léger de l'univers."},
+            {n:2, s:"He", name:"Hélium", x:18, y:1, desc:"Un gaz noble utilisé pour les ballons."},
+            {n:3, s:"Li", name:"Lithium", x:1, y:2, desc:"Utilisé dans les batteries de téléphone."},
+            {n:6, s:"C", name:"Carbone", x:14, y:2, desc:"La base de toute vie sur Terre."},
+            {n:8, s:"O", name:"Oxygène", x:16, y:2, desc:"Indispensable pour respirer."},
+            {n:10, s:"Ne", name:"Néon", x:18, y:2, desc:"Brille intensément dans les tubes."},
+            {n:26, s:"Fe", name:"Fer", x:8, y:4, desc:"Métal solide utilisé pour les structures."},
+            {n:79, s:"Au", name:"Or", x:11, y:6, desc:"Métal précieux jaune qui ne rouille pas."}
+        ];
+
+        let currentEl = null;
+
+        // Génération du tableau
+        const container = document.getElementById('table');
+        elements.forEach(el => {
+            const div = document.createElement('div');
+            div.className = 'el';
+            div.style.gridColumn = el.x;
+            div.style.gridRow = el.y;
+            div.innerHTML = `<span class="num">${el.n}</span><span class="sym">${el.s}</span>`;
+            
+            div.onclick = () => speak(`C'est le ${el.name}. ${el.desc}`);
+            container.appendChild(div);
+        });
+
+        // Fonction pour faire parler l'IA (Synthèse vocale)
+        function speak(text) {
+            window.speechSynthesis.cancel(); // Stoppe la voix si elle parlait déjà
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'fr-FR';
+            window.speechSynthesis.speak(msg);
+        }
+
+        // Système de Quiz
+        function nextQuestion() {
+            currentEl = elements[Math.floor(Math.random() * elements.length)];
+            document.getElementById('question').innerText = `Quel est le nom de l'élément : ${currentEl.s} ?`;
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('answer').value = "";
+            document.getElementById('answer').focus();
+        }
+
+        function checkAnswer() {
+            const userAns = document.getElementById('answer').value.trim().toLowerCase();
+            const correctAns = currentEl.name.toLowerCase();
+            const feed = document.getElementById('feedback');
+
+            if (userAns === correctAns) {
+                feed.className = "win";
+                feed.innerText = "✅ Bravo ! C'est correct.";
+                speak("Bravo ! C'est la bonne réponse.");
+            } else {
+                feed.className = "lose";
+                feed.innerText = `❌ Non, c'était le ${currentEl.name}.`;
+                speak(`Faux. Il s'agissait du ${currentEl.name}.`);
+            }
+        }
+    </script>
+</body>
+</html>

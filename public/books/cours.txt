@@ -1,0 +1,96 @@
+COURS COMPLET SUR SEABORN
+=========================
+
+1. Introduction
+---------------
+Seaborn est une bibliothèque Python basée sur Matplotlib.
+Elle permet de créer des visualisations statistiques élégantes
+et faciles à interpréter.
+
+Installation :
+    pip install seaborn
+
+Import :
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    import pandas as pd
+
+Dataset exemple :
+    tips = sns.load_dataset("tips")
+
+2. Graphiques essentiels
+------------------------
+
+a) Scatterplot (nuage de points)
+--------------------------------
+Visualiser la relation entre deux variables numériques.
+
+Exemple :
+    sns.scatterplot(x="total_bill", y="tip", data=tips)
+    plt.show()
+
+Quand l’utiliser :
+- Corrélation entre deux variables
+- Détection de tendances ou anomalies
+
+b) Barplot (diagramme en barres)
+--------------------------------
+Comparer des moyennes ou proportions entre catégories.
+
+Exemple :
+    sns.barplot(x="day", y="total_bill", data=tips)
+    plt.show()
+
+c) Boxplot (boîte à moustaches)
+-------------------------------
+Montrer la distribution, la médiane et les valeurs extrêmes.
+
+Exemple :
+    sns.boxplot(x="day", y="total_bill", data=tips)
+    plt.show()
+
+d) Violinplot
+-------------
+Combiner boxplot et densité de distribution.
+
+Exemple :
+    sns.violinplot(x="day", y="total_bill", data=tips)
+    plt.show()
+
+e) Heatmap (carte de chaleur)
+-----------------------------
+Visualiser une matrice de corrélations.
+
+Exemple :
+    corr = tips.corr()
+    sns.heatmap(corr, annot=True, cmap="coolwarm")
+    plt.show()
+
+f) Pairplot
+-----------
+Explorer toutes les relations entre variables numériques.
+
+Exemple :
+    sns.pairplot(tips)
+    plt.show()
+
+3. Lecture d’un graphique externe
+---------------------------------
+- Identifier les axes (X et Y)
+- Lire la légende et les couleurs
+- Observer la tendance générale
+- Repérer anomalies ou clusters
+
+4. Résumé pratique
+------------------
+- Scatterplot → relation entre deux variables
+- Barplot → comparer des catégories
+- Box/Violin → analyser distribution et outliers
+- Heatmap → corrélations entre variables
+- Pairplot → exploration multivariée
+
+5. Exercices
+------------
+1. Charger le dataset "iris" et tracer un pairplot.
+2. Créer un heatmap des corrélations sur "tips".
+3. Comparer boxplot et violinplot sur "total_bill".

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ruphy | Scientific_library & Coding Hub</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="brand">RU<span>PHY</span></div>
+
+      <div class="dropdown">
+        <button class="dropbtn">/SCIENTIFIC_LIBRARY</button>
+        <div class="dropdown-content">
+          <a href="books/livre physique.pdf"
+            ># DATABASE_01: Physique_Atomique.pdf</a
+          >
+          <a href="books/livre math.pdf"># DATABASE_02:Math général.pdf</a>
+          <a href="#"># DATABASE_03:Sympy_code.py</a>
+          <a href="books/livre chimie.pdf"># DATABASE_04:Chimie_2d.pdf</a>
+          <a href="books/micro.pdf">#DATABASE_05:Microbiologie.pdf</a>
+          <a href="books/livre biologie moleculaire.pdf"
+            >#DATABASE_06:Biologie_moleculaire.pdf</a
+          >
+          <a href="books/biologie animale.pdf"
+            >#DATABASE_07:Biologie_animale.pdf</a
+          >
+          <a href="logo_future.jpg">#DATABASE_08:Picture_ruphy.jpg</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <h1>Scientific Hub for Programmers</h1>
+      <p>>_ Loading expertise_modules... SUCCESS</p>
+    </div>
+    <div class="time" onclick="timeString()">00:00:00</div>
+
+    <div class="grid-container">
+      <div class="grid">
+        <!-- PYTHON -->
+        <div class="card python">
+          <div>
+            <span class="tag tag-py">SCIENTIFIC COMPUTING</span>
+            <h3>Python Core</h3>
+            <div class="code-snippet">
+              import sympy as sp<br />print(sp.solve(eq))
+            </div>
+            <p>
+              Calcul formel, traitement de données physiques et intelligence
+              artificielle comme Ruphia.
+            </p>
+          </div>
+          <div class="footer">
+            <span style="color: var(--accent-blue); font-size: 0.7rem"
+              >KERNEL:V 3.13</span
+            >
+            <button
+              class="btn-run"
+              onclick="speak('Initialisation du noyau Python')"
+            >
+              <a href="books/apprendre_python3_5.pdf">Run()</a>
+            </button>
+          </div>
+        </div>
+        <div class="dropdown-content">
+          <a
+            href="books/livre chimie.pdf"
+            onclick="
+              ouvrirLivre(
+                'Chimie Physique',
+                'La chimie physique étudie les bases physiques des systèmes chimiques...',
+              )
+            "
+            >🧪 Chimie Physique</a
+          >
+          <a
+            href="books/apprendre_python3_5.pdf"
+            onclick="
+              ouvrirLivre(
+                'Astrophysique',
+                'L\'astrophysique est la branche de l\'astronomie qui...',
+              )
+            "
+            >⚛️ Astrophysique</a
+          >
+        </div>
+
+        <!-- C++ -->
+        <div class="card cpp">
+          <div>
+            <span class="tag tag-cpp">HIGH PERFORMANCE</span>
+            <h3>C++ Systems</h3>
+            <div class="code-snippet">
+              #include &lt;iostream&gt;<br />std::cout << "Hi-Fi";
+            </div>
+            <p>
+              Programmation système basse tension et moteurs physiques
+              ultra-rapides.
+            </p>
+          </div>
+          <div class="footer">
+            <span style="color: #6495ed; font-size: 0.7rem">STD: C++20</span>
+            <!-- Remplace la ligne du bouton C++ par celle-ci -->
+            <button class="btn-run" onclick="simulerCompilation()">
+              COMPILE()
+            </button>
+          </div>
+        </div>
+
+        <!-- JAVA -->
+        <div class="card java">
+          <div>
+            <span class="tag tag-java">BACKEND ARCHITECTURE</span>
+            <h3>Java Enterprise</h3>
+            <div class="code-snippet">public class Ruphy { ... }</div>
+            <p>
+              Développement d'applications serveurs robustes pour la science.
+            </p>
+          </div>
+          <div class="footer">
+            <span style="color: var(--accent-orange); font-size: 0.7rem"
+              >JVM: OpenJDK 21</span
+            >
+            <button class="btn-run" onclick="demarrerJava()">
+              <a href="books/livre 3 java.pdf">JVM_START</a>
+            </button>
+          </div>
+        </div>
+
+        <!-- HTML/CSS -->
+        <div class="card html">
+          <div>
+            <span class="tag tag-html">VISUAL INTERFACE</span>
+            <h3>Frontend Tech</h3>
+            <div class="code-snippet">&lt;section id="lab"&gt;</div>
+            <p>
+              Design d'interfaces scientifiques interactives et tableaux de bord
+              modernes.
+            </p>
+          </div>
+          <div class="footer">
+            <span style="color: var(--accent-red); font-size: 0.7rem"
+              >W3C: HTML5/CSS3</span
+            >
+            <button class="btn-run"><a href="">DEPLOY()</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script scr="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculatrice Scientifique - Ruphy</title>
+    <style>
+      /* --- DESIGN FUTURISTE --- */
+      body {
+        background: #1a1a2e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+      }
+      header {
+        background: #00d4ff;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          "Open Sans",
+          "Helvetica Neue",
+          sans-serif;
+      }
+      h1 {
+        color: green;
+      }
+      .glass-calc {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        width: 320px;
+      }
+      #display {
+        width: 100%;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.3);
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        color: #00d4ff;
+        font-size: 24px;
+        text-align: right;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      button {
+        padding: 15px;
+        border-radius: 10px;
+        border: none;
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: rgba(0, 212, 255, 0.3);
+        transform: translateY(-2px);
+      }
+      /* Couleurs spéciales */
+      .btn-sci {
+        color: #00d4ff;
+        font-weight: bold;
+        background: rgba(0, 212, 255, 0.1);
+      }
+      .btn-op {
+        color: #ff9f43;
+        font-weight: bold;
+      }
+      .btn-clear {
+        color: #ff4b2b;
+      }
+      .btn-eq {
+        background: #00d4ff;
+        color: #1a1a2e;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <header></header>
+  <body>
+    <div class="glass-calc">
+      <h2
+        style="
+          color: white;
+          text-align: center;
+          margin-top: 0;
+          font-weight: 300;
+        "
+      >
+        RUPHY <span style="font-weight: 800">CALCULATRICE</span>
+      </h2>
+      <input type="text" id="display" readonly placeholder="0" />
+
+      <div class="buttons">
+        <button class="btn-sci" onclick="calcSin()">sin</button>
+        <button class="btn-sci" onclick="calcCos()">cos</button>
+        <button class="btn-sci" onclick="calcTan()">tan</button>
+        <button class="btn-clear" onclick="clearSpace()">C</button>
+        <button class="btn-sci" onclick="calcLog()">log</button>
+        <button class="btn-sci" onclick="calcSqrt()">√</button>
+        <button class="btn-op" onclick="add('/')">÷</button>
+        <button class="btn-op" onclick="add('*')">×</button>
+        <button onclick="add('7')">7</button>
+        <button onclick="add('8')">8</button>
+        <button onclick="add('9')">9</button>
+        <button class="btn-op" onclick="add('-')">-</button>
+        <button onclick="add('4')">4</button>
+        <button onclick="add('5')">5</button>
+        <button onclick="add('6')">6</button>
+        <button class="btn-op" onclick="add('+')">+</button>
+        <button onclick="add('1')">1</button>
+        <button onclick="add('2')">2</button>
+        <button onclick="add('3')">3</button>
+        <button class="btn-eq" style="grid-row: span 2" onclick="solve()">
+          =
+        </button>
+        <button style="grid-column: span 2" onclick="add('0')">0</button>
+        <button onclick="add('.')">.</button>
+        <button onclick="hist()" style="color: #ff4b2b">HistCalc</button>
+      </div>
+    </div>
+    <script>
+      const screen = document.getElementById("display");
+      function add(value) {
+        screen.value += value;
+      }
+      function clearSpace() {
+        screen.value = "";
+      }
+      function solve() {
+        try {
+          screen.value = eval(screen.value);
+        } catch {
+          screen.value = "😅Ruphia ne capte pas ";
+        }
+      }
+      // --- FONCTIONS MATHÉMATIQUES ---
+      function toRad(deg) {
+        return deg * (Math.PI / 180);
+      }
+      function calcSin() {
+        screen.value = Math.sin(toRad(parseFloat(screen.value))).toFixed(4);
+      }
+      function calcCos() {
+        screen.value = Math.cos(toRad(parseFloat(screen.value))).toFixed(4);
+      }
+      function calcTan() {
+        screen.value = Math.tan(toRad(parseFloat(screen.value))).toFixed(4);
+      }
+      function calcLog() {
+        screen.value = Math.log10(parseFloat(screen.value)).toFixed(4);
+      }
+      function calcSqrt() {
+        screen.value = Math.sqrt(parseFloat(screen.value)).toFixed(4);
+      }
+      function hist() {}
+    </script>
+  </body>
+</html>

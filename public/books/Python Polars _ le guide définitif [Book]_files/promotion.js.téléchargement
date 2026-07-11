@@ -1,0 +1,279 @@
+// 2026.02.24 v5
+// Marketing overlay script for platform /preview pages
+(function () {
+  function main() {
+    //Setter and getter for exit intent cookie
+    const ExitIntentCookieService = {
+      setCookie(name, value, days) {
+        let expires = "";
+
+        if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+          expires = "; expires=" + date.toUTCString();
+        }
+
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      },
+
+      getCookie(name) {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+          if (cookie.indexOf(name + "=") > -1) {
+            return cookie.split("=")[1];
+          }
+        }
+
+        return null;
+      },
+    };
+
+    //If exit intentcookie doesn't exist,
+    //then initialize exit intent overlay scripts
+    let exitIntentCookieValue = ExitIntentCookieService.getCookie(
+      "libraryExitIntentShown"
+    );
+    if (exitIntentCookieValue === null || exitIntentCookieValue === "1") {
+      setTimeout(() => {
+        document.addEventListener("mouseout", mouseEvent);
+        document.addEventListener("keydown", exit);
+      }, 0);
+
+      // Load css file for exit intent overlay
+      const cssDefaultRef = document.createElement("link");
+      cssDefaultRef.rel = "stylesheet";
+      cssDefaultRef.type = "text/css";
+      cssDefaultRef.href = "https://cdn.oreillystatic.com/assets/css/preview/exit-intent-overlay.css";
+      document.getElementsByTagName("head")[0].appendChild(cssDefaultRef);
+
+      // Preload AI Codecon overlay image
+      const preloadImg = document.createElement("link");
+      preloadImg.rel = "preload";
+      preloadImg.as = "image";
+      preloadImg.href = "https://cdn.oreillystatic.com/oreilly/images/ai-codecon-overlay-1200x1200-03262026.jpg";
+      document.getElementsByTagName("head")[0].appendChild(preloadImg);
+
+      // Preload css file for AI Codecon overlay to avoid a flicker
+      const cssAICodecontRef = document.createElement("link");
+      cssAICodecontRef.rel = "stylesheet";
+      cssAICodecontRef.type = "text/css";
+      cssAICodecontRef.href = "https://cdn.oreillystatic.com/assets/css/preview/exit-intent-overlay-aicodecon2026.css";
+      document.getElementsByTagName("head")[0].appendChild(cssAICodecontRef);
+    }
+
+    //When a user clicks outside overlay or close icon or hits escape key
+    //close exit intent overlay
+    const exit = (e) => {
+      const shouldExit =
+        [...e.target.classList].includes("exitIntentOverlay") || // user clicks on overlay
+        [...e.target.classList].includes("exitIntentOverlay2") || // user clicks on overlay2
+        e.target.className === "exitIntentOverlay-close" || // user clicks on the close icon
+        e.key === "Escape"; // user hits escape
+
+      if (shouldExit) {
+        document.querySelector(".exitIntentOverlay")?.classList.remove("visible");
+        document.querySelector(".exitIntentOverlay2")?.classList.remove("visible");
+      }
+    };
+
+    //When a user's cursor leaves the document
+    //show exit intent overlay
+    const mouseEvent = (e) => {
+      const shouldShowExitIntent = !e.toElement && !e.relatedTarget && e.clientY < 10;
+
+      if (shouldShowExitIntent) {
+        document.removeEventListener("mouseout", mouseEvent);
+
+        //Enable redirect back to the current page after account creation
+        let nextParam = '';
+        if (window.location.pathname) {
+          nextParam = '?next=' + window.location.pathname;
+        }
+
+        if (exitIntentCookieValue === null) {
+          //Set value of exitIntentCookieValue
+          exitIntentCookieValue = "1";
+
+          //Check for sale
+          const today = new Date();
+
+          // If search parameter "testPromo" is present, show promotion
+          let testPromo = '';
+          if (window.location.search.indexOf('testPromo') > -1) {
+            testPromo = new URL(window.location.href).searchParams.get('testPromo').toUpperCase();
+          }
+
+          let isAIProduct = false;
+          // Extract slug from URL and check for AI-related terms
+          const pathMatch = window.location.pathname.match(/\/library\/view\/([^\/]+)\//);
+          if (pathMatch && pathMatch[1]) {
+            const slug = pathMatch[1].toLowerCase();
+            const normalizedSlug = slug.replace(/[-_]+/g, " ");
+            const slugParts = normalizedSlug.split(/\W+/);
+            const singleWordTerms = ["ai", "artificial", "genai", "ml"];
+            const phraseTerms = ["machine learning"];
+            const hasSingleWordMatch = slugParts.some(part =>
+              singleWordTerms.includes(part)
+            );
+            const hasPhraseMatch = phraseTerms.some(phrase =>
+              normalizedSlug.includes(phrase)
+            );
+            isAIProduct = hasSingleWordMatch || hasPhraseMatch;
+          }
+
+          // AI Codecon promotion date range from February 25 7:00am PT to March 25 11:59pm PT
+          codeconStartDate = new Date('2026-02-25T07:00:00.000-08:00');
+          codeconEndDate = new Date('2026-03-25T23:59:00.000-07:00');
+
+          // Summer Sale promotion date range from June 1 7:00am PT to June 9 11:59pm PT
+          summerSaleStartDate = new Date('2026-06-01T07:00:00.000-07:00');
+          summerSaleExtraDate = new Date('2026-06-08T23:59:00.000-07:00');
+          summerSaleEndDate = new Date('2026-06-09T23:59:00.000-07:00');
+
+          // If during date range replace exit intent overlay with promotion
+          if ((isAIProduct && today > codeconStartDate && today <= codeconEndDate) || (isAIProduct && testPromo === 'AICODECON')) {
+            let overlay1HTML = '';
+
+            //Create exit intent overlay HTML
+            //and insert it into the document body
+            overlay1HTML = `<div class="exitIntentOverlay visible" id="exitIntentOverlay"><div class="exitIntentOverlay-contents aicodecon"><a id="exitIntentOverlay1AICodecon" class="exitIntentOverlay-linkedImage" href="https://www.oreilly.com/AI-Codecon/" title=""><img src="https://cdn.oreillystatic.com/oreilly/images/ai-codecon-overlay-1200x1200-03262026.jpg" alt=""></a><button class="exitIntentOverlay-close">Close</button></div></div>`;
+
+            document.body.insertAdjacentHTML('beforeend', overlay1HTML);
+
+            document.querySelector(".exitIntentOverlay")?.addEventListener("click", exit);
+
+            //Send tracking for exit intent overlay impression
+            if (window.dataLayer) {
+              window.dataLayer.push({
+                event: "eventTracker",
+                eventCat: "marketing",
+                eventAct: "exit intent imp",
+                eventLbl: "modal 1",
+              });
+            }
+
+            //Add click tracking for "start your free trial" button
+            const StartYourFreeTrial = document.querySelector("#exitIntentOverlay1AICodecon");
+            if (StartYourFreeTrial) {
+              StartYourFreeTrial.addEventListener("click", function (e) {
+                if (window.dataLayer) {
+                  window.dataLayer.push({
+                    event: "eventTracker",
+                    eventCat: "marketing",
+                    eventAct: "exit intent",
+                    eventLbl: "sign up for free|ai codecon",
+                  });
+                }
+              });
+            }
+
+          } else if ((today > summerSaleStartDate && today <= summerSaleEndDate) || testPromo === 'SUMMERSALE') {
+            // Load css file for promotion
+            const cssFileRef = document.createElement("link");
+            cssFileRef.rel = "stylesheet";
+            cssFileRef.type = "text/css";
+            cssFileRef.href = "https://cdn.oreillystatic.com/assets/css/preview/exit-intent-overlay-summersale2026.css";
+            document.getElementsByTagName("head")[0].appendChild(cssFileRef);
+
+            let overlay1HTML = '';
+
+            //Create exit intent overlay HTML
+            //and insert it into the document body
+            if (today < summerSaleExtraDate) {
+              overlay1HTML = `<div class="exitIntentOverlay visible" id="exitIntentOverlay"><div class="exitIntentOverlay-contents sale"><div class="exitIntentOverlay-columns"><div class="exitIntentOverlay-text"><h2>Soak up some savings</h2><p>Enjoy instant access to this and 75K+ other resources, including books, expert-led live courses and events, labs, courses, and certification prep—for less! <strong>But hurry, offer expires June 8.</strong></p><div class="exitIntentOverlay-cta-group"><a class="exitIntentOverlay-cta" href="https://www.oreilly.com/online-learning/summer2026-flash-sale.html?code=SUMMERAB26">See the deal</a></div></div></div><button class="exitIntentOverlay-close">Close</button><figure class="exitIntentOverlay-figure sale1"></figure><div class="blob1"></div><div class="blob2"></div></div></div>`;
+            } else {
+              overlay1HTML = `<div class="exitIntentOverlay visible" id="exitIntentOverlay"><div class="exitIntentOverlay-contents sale"><div class="exitIntentOverlay-columns"><div class="exitIntentOverlay-text"><h2>Soak up some savings</h2><p>Enjoy instant access to this and 75K+ other resources, including books, expert-led live courses and events, labs, courses, and certification prep—for less! <strong>But hurry, offer expires June 9.</strong></p><div class="exitIntentOverlay-cta-group"><a class="exitIntentOverlay-cta" href="https://www.oreilly.com/online-learning/summer2026-flash-sale.html?code=SUMMERAB26">See the deal</a></div></div></div><button class="exitIntentOverlay-close">Close</button><figure class="exitIntentOverlay-figure sale1"></figure><div class="blob1"></div><div class="blob2"></div></div></div>`;
+            }
+
+            document.body.insertAdjacentHTML('beforeend', overlay1HTML);
+
+            document.querySelector(".exitIntentOverlay")?.addEventListener("click", exit);
+
+            //Send tracking for exit intent overlay impression
+            if (window.dataLayer) {
+              window.dataLayer.push({
+                event: "eventTracker",
+                eventCat: "marketing",
+                eventAct: "exit intent imp",
+                eventLbl: "modal 1",
+              });
+            }
+
+          } else {
+            let exitIntentProductFormat = '';
+            if (document.querySelector('[data-testid="header-text"] span:first-child')) {
+              exitIntentProductFormat = document.querySelector('[data-testid="header-text"] span:first-child')?.innerText.toLowerCase();
+            }
+
+            //Create exit intent overlay HTML
+            //and insert it into the document body
+            const overlay1HTML = `<div class="exitIntentOverlay visible" id="exitIntentOverlay"><div class="exitIntentOverlay-contents"><div class="exitIntentOverlay-columns"><div class="exitIntentOverlay-text"><h2>Get full access to this ${exitIntentProductFormat} (free)</h2><p>Ready to upgrade your skills?</p><ul class="checks"><li>Free trial, no commitment</li><li>Access to the O’Reilly learning platform</li><li>Thousands of 5-star resources: books, videos, events, and more</li></ul><div class="exitIntentOverlay-cta-group"><a class="exitIntentOverlay-cta" href="https://learning.oreilly.com/start-trial/${nextParam}">Unlock the full title</a></div></div><figure class="exitIntentOverlay-figure animalBackground wallcreeper"></figure></div><button class="exitIntentOverlay-close">Close</button></div></div>`;
+            //https://www.oreilly.com/start-trial/?next=/library/view/fundamentals-of-data/9781098108298/ch01.html
+          
+            document.body.insertAdjacentHTML('beforeend', overlay1HTML);
+
+            document.querySelector(".exitIntentOverlay")?.addEventListener("click", exit);
+
+            //Send tracking for exit intent overlay impression
+            if (window.dataLayer) {
+              window.dataLayer.push({
+                event: "eventTracker",
+                eventCat: "marketing",
+                eventAct: "exit intent imp",
+                eventLbl: "modal 1",
+              });
+            }
+          }          
+        } else if (exitIntentCookieValue === "1") {
+          //Set value of exitIntentCookieValue
+          exitIntentCookieValue = "2";
+
+          const overlay1HTML = `<div class="exitIntentOverlay2 visible" id="exitIntentOverlay2"><div class="exitIntentOverlay-contents"><div class="exitIntentOverlay-columns"><div class="exitIntentOverlay-text"><h2>Check it out now <span class="nowrap">on O’Reilly</span></h2><p>Dive in for free with a 10-day trial of the O’Reilly learning platform&mdash;then explore all the other resources our members count on to build skills and solve problems <span class="nowrap">every day.</span></p><div class="exitIntentOverlay-cta-group"><a id="exitIntentOverlay2StartYourFreeTrial" class="exitIntentOverlay-cta" href="https://www.oreilly.com/start-trial/${nextParam}">Start your free trial</a><a class="exitIntentOverlay-cta" href="https://learning.oreilly.com/signup/${nextParam}">Become a member now</a></div></div><figure class="exitIntentOverlay-figure"><img src="https://cdn.oreillystatic.com/oreilly/images/laptop-flat-answers-1124x638-20250714.jpg" alt="" /></figure></div><button class="exitIntentOverlay-close">Close</button></div></div>`;
+        
+          document.body.insertAdjacentHTML('beforeend', overlay1HTML);
+
+          document.querySelector(".exitIntentOverlay2")?.addEventListener("click", exit);
+
+          //Send tracking for exit intent overlay impression
+          if (window.dataLayer) {
+            window.dataLayer.push({
+              event: "eventTracker",
+              eventCat: "marketing",
+              eventAct: "exit intent imp",
+              eventLbl: "modal 2",
+            });
+          }
+
+          //Add click tracking for "start your free trial" button
+          const StartYourFreeTrial = document.querySelector("#exitIntentOverlay2StartYourFreeTrial");
+          if (StartYourFreeTrial) {
+            StartYourFreeTrial.addEventListener("click", function (e) {
+              if (window.dataLayer) {
+                window.dataLayer.push({
+                  event: "eventTracker",
+                  eventCat: "marketing",
+                  eventAct: "exit intent",
+                  eventLbl: "start your free trial",
+                });
+              }
+            });
+          }
+        }
+
+        //Set exit intent cookie
+        ExitIntentCookieService.setCookie(
+          "libraryExitIntentShown",
+          exitIntentCookieValue,
+          30
+        );
+      }
+    };
+  }
+  
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", main);
+  } else {
+    main();
+  }
+})();

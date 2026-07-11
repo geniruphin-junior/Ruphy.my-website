@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RUPHILATOR CONVERT</title>
+    <style>
+      :root {
+        --accent: #00d2ff;
+        --bg: #0f172a;
+        --glass: rgba(30, 41, 59, 0.7);
+      }
+      body {
+        /* le style de mon body*/
+        background: var(--bg); /* importation de ma variable crée si haut*/
+        color: white;
+        font-family:
+          "Segoe UI", sans-serif; /* Choix de la police un peu fituriste */
+        display: flex; /* pourque l'élément prenne toute la distance possible autour d'elle en quelques sortes*/
+        justify-content: center; /* on pose ma carte au centre de l'écran */
+        padding: 20px;
+      }
+      .card {
+        background: var(
+          --glass
+        ); /* je lui donne la valeur de ma variable --glass créé plus haut*/
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1); /* le contour de ma carte jolie*/
+        padding: 30px;
+        border-radius: 20px; /* je facone ma carte avec un style sur le coté un peu arrondi*/
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+      h1 {
+        text-align: center; /* je centre mon h1 aucentre du convertisseur*/
+        background: linear-gradient(to right, #00d2ff, #3a7bd5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; /* un style transparent*/
+        margin-bottom: 30px;
+      }
+      .group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 12px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid #334155;
+        border-radius: 8px;
+        color: white;
+        font-size: 1rem;
+        outline: none;
+        box-sizing: border-box;
+      }
+      input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      .result-box {
+        margin-top: 25px;
+        padding: 20px;
+        background: rgba(0, 210, 255, 0.1);
+        border-radius: 12px;
+        border-left: 4px solid var(--accent);
+        text-align: center;
+      }
+      #res-val {
+        font-size: 1.8rem;
+        font-weight: bold;
+        display: block;
+      }
+      .btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+
+    <div class="card">
+      <h1>SCI-RUPHILATOR CONVERT</h1>
+
+      <div class="group">
+        <label>Type de mesure</label>
+        <select id="type" onchange="updateUnits()">
+          <option value="temp">🌡️ Température</option>
+          <option value="mass">⚖️ Masse Molaire (C vs H)</option>
+          <option value="pres">🌬️ Pression</option>
+          <option value="dist">📏 Distance</option>
+          <option value="time">🕘temps</option>
+        </select>
+      </div>
+
+      <div class="grid">
+        <div class="group">
+          <label>Valeur</label>
+          <input type="number" id="inputVal" value="0" oninput="convert()" />
+        </div>
+        <div class="group">
+          <label>Unité</label>
+          <select id="unit" onchange="convert()"></select>
+        </div>
+      </div>
+
+      <div class="result-box">
+        <span id="res-label">Résultat :</span>
+        <span id="res-val">---</span>
+      </div>
+
+      <button class="btn" onclick="copyResult()">Copier le résultat</button>
+    </div>
+
+    <script>
+      const units = {
+        temp: ["Celsius", "Kelvin", "Fahrenheit"],
+        mass: ["Carbone (mol)", "Hydrogène (mol)"],
+        pres: ["Bar", "Pascal", "PSI"],
+        dist: ["centimetres", "décimetres", "Metres", "Kilometers"],
+        time: ["Secondes", "Minutes", "Heures"],
+      };
+
+      function updateUnits() {
+        const type = document.getElementById("type").value;
+        const unitSelect = document.getElementById("unit");
+        unitSelect.innerHTML = units[type]
+          .map((u) => `<option value="${u}">${u}</option>`)
+          .join("");
+        convert();
+      }
+
+      function convert() {
+        const type = document.getElementById("type").value;
+        const val = parseFloat(document.getElementById("inputVal").value);
+        const unit = document.getElementById("unit").value;
+        let res = "";
+
+        if (isNaN(val)) return;
+
+        if (type === "temp") {
+          if (unit === "Celsius")
+            res = `${val + 273.15} K | ${(val * 9) / 5 + 32} °F`;
+          if (unit === "Kelvin")
+            res = `${val - 273.15} °C | ${((val - 273.15) * 9) / 5 + 32} °F`;
+          if (unit === "Fahrenheit")
+            res = `${(((val - 32) * 5) / 9).toFixed(2)} °C | ${(((val - 32) * 5) / 9 + 273.15).toFixed(2)} K`;
+        } else if (type === "mass") {
+          // Conversion simplifiée pour l'exercice : mol vers grammes
+          if (unit.includes("Carbone"))
+            res = `${(val * 12.01).toFixed(3)} g de C`;
+          else res = `${(val * 1.008).toFixed(3)} g de H`;
+        } else if (type === "pres") {
+          if (unit === "Bar")
+            res = `${val * 100000} Pa | ${(val * 14.503).toFixed(2)} PSI`;
+          if (unit === "Pascal")
+            res = `${val / 100000} Bar | ${(val / 6894.7).toFixed(4)} PSI`;
+          if (unit === "PSI")
+            res = `${(val / 14.503).toFixed(3)} Bar | ${(val * 6894.7).toFixed(0)} Pa`;
+        } else if (type === "dist") {
+          if (unit === "centimetres")
+            res = `${val / 100} m | ${val / 100000} km`;
+          if (unit === "décimetres")
+            res = `${val / 10} m | ${val / 1000000} km`;
+          if (unit === "Metres") res = `${val} m | ${val / 1000} km`;
+          if (unit === "Kilometers") res = `${val * 1000} m | ${val} km`;
+        } else if (type === "time") {
+          if (unit === "Secondes")
+            res = `${val} s | ${val / 60} m | ${val / 3600} h`;
+          if (unit === "Minutes")
+            res = `${val * 60} s | ${val} m | ${val / 60} h`;
+          if (unit === "Heures")
+            res = `${val * 3600} s | ${val * 60} m | ${val} h`;
+        }
+
+        document.getElementById("res-val").innerText = res;
+      }
+
+      function copyResult() {
+        const text = document.getElementById("res-val").innerText;
+        navigator.clipboard.writeText(text);
+        alert("Résultat copié !");
+      }
+
+      // Initialisation
+      updateUnits();
+    </script>
+  </body>
+</html>

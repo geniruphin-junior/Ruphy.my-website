@@ -1,0 +1,363 @@
+header {
+  background-color: rgb(2, 2, 24);
+  color: rgb(0, 22, 92);
+  padding: 10px;
+  width: left;
+  text-align: center;
+}
+header h1 {
+  font-family: "Cambria", Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 28px;
+  color: rgb(0, 255, 255);
+  text-align: center;
+}
+footer {
+  background-color: #01011f;
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+  font-size: 14px;
+  color: aqua;
+}
+.hero {
+  text-align: center;
+  padding: 10px;
+  background: radial-gradient(circle at center, #1e293b 0%, #030712 100%);
+}
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  color: white;
+}
+.hero p {
+  color: green;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #1a1a2e;
+}
+
+.main-header h1 {
+  color: #8c52ff;
+  margin: 0;
+}
+td,
+th {
+  border: 1px solid rgb(0, 255, 234);
+  padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: left;
+}
+th {
+  color: #00ff96;
+  font-size: 0.9rem;
+}
+table thead tr {
+  border-collapse: collapse;
+  background-color: #f2f2f2;
+  color: #333;
+  text-align: left;
+}
+td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f1f1;
+}
+table {
+  border-collapse: collapse;
+}
+table body tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+table body tr:hover {
+  background-color: #f1f1f1;
+}
+table,
+th,
+td {
+  border-collapse: collapse;
+  padding: 12px;
+  text-align: left;
+}
+
+head {
+  background-color: rgb(30, 18, 85);
+  font-family: "Cambria", Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 3px;
+  box-shadow: 0 0 15px #8c52ff;
+  padding: 20px;
+}
+body {
+  background-color: rgb(2, 2, 24);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-seri;
+  font-style: italic;
+  font-size: 15px;
+}
+body nav p {
+  color: white;
+}
+section h2 {
+  color: rgba(12, 155, 24, 0.788);
+}
+section p {
+  color: aqua;
+}
+section {
+  color: #8b949e;
+}
+
+.tab-btn {
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: rgb(62, 117, 0);
+  color: whitesmoke;
+  border: none;
+  border-radius: 60px;
+  text-decoration: none;
+}
+.tab-btn:hover {
+  color: rgb(164, 97, 184);
+}
+nav a {
+  color: #adadfd;
+}
+.logo-container {
+  text-align: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 300px;
+  transition: transform 0.3s;
+}
+.logo-container img:hover {
+  transform: scale(1.8);
+  text-align: right;
+}
+.logo {
+  width: 100px;
+  height: 110px;
+  border-radius: 78%;
+  object-fit: cover;
+  border: none;
+}
+/* MENU */
+.menu-container {
+  position: relative;
+  text-align: right;
+}
+
+#menuBtn {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #00ffff;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #1a1a2e;
+  box-shadow: 0 0 15px #8c52ff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown a:hover {
+  background-color: hsl(251, 100%, 50%);
+}
+a:active {
+  background-color: #ffcc66;
+}
+p {
+  width: 350px;
+  text-align: justify;
+
+  overflow: auto;
+}
+input {
+  background-color: #8c52ff;
+  box-shadow: #00ffff;
+  padding: 18px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  color: blue;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.nav-links a {
+  color: rgba(237, 241, 241, 0.582);
+  text-decoration: none;
+}
+/* Grille de cartes */
+.container {
+  padding: 50px 5%;
+}
+.nav-links a:hover {
+  color: aqua;
+}
+.body-h1 {
+  color: #8c52ff;
+}
+.grid-container {
+  max-width: 1300px;
+  margin: 0 auto 100px;
+  padding: 0 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* --- CARTES PRO --- */
+.card {
+  background: #000114;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card:hover {
+  transform: translateY();
+  border-color: var(--card-color, var(--accent-blue));
+
+  border-color: #00f2fe;
+  filter: brightness(1.2);
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+.code-snippet {
+  background: #010409;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin: 15px 0;
+  color: #8b949e;
+  border-left: 3px solid var(--card-color);
+}
+.card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+.card p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+.cpp {
+  --card-color: #00599c;
+  box-shadow: #010409;
+}
+.tag-cpp {
+  background: rgba(0, 89, 156, 0.1);
+  color: #6495ed;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.brand {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+.brand span {
+  color: var(--accent-blue);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+.tag-py {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--accent-blue);
+}
+.tag-cpp {
+  background: rgba(0, 89, 156, 0.1);
+  color: #6495ed;
+}
+.btn-run {
+  background: var(--card-color);
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: 0.2s;
+}
+.btn-run:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+
+/* --- VARIANTES DE COULEURS PAR LANGAGE --- */
+.python {
+  --card-color: aqua;
+}
+.cpp {
+  --card-color: #00599c;
+}
+.grid-container a {
+  text-decoration: none;
+  color: #030712;
+}
+
+/* CSS pour mettre le canvas en fond */
+#fond-ia {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Derrière tout le contenu */
+  background: #0a192f; /* Le nouveau fond sombre */
+}
+.code-snippet {
+  background: #010409;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin: 15px 0;
+  color: #8b949e;
+  border-left: 3px solid var(--card-color);
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau Périodique (50 Éléments)</title>
+    <style>
+        :root {
+            --bg: #0f172a; --card: #1e293b; --text: #f1f5f9;
+            --alkali: #ef4444; --alkaline: #f97316; --transition: #facc15;
+            --metalloid: #2dd4bf; --nonmetal: #3b82f6; --noble: #a855f7;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        
+        #info-box {
+            width: 100%; max-width: 900px; height: 120px; background: var(--card);
+            margin-bottom: 20px; border-radius: 12px; display: flex; 
+            justify-content: space-around; align-items: center; border: 2px solid #334155;
+        }
+        .data-val { font-weight: bold; color: #38bdf8; font-size: 1.2rem; }
+
+        .grid { display: grid; grid-template-columns: repeat(18, 1fr); gap: 5px; width: 100%; max-width: 1100px; }
+        
+        .el {
+            background: var(--card); border: 1px solid #334155; aspect-ratio: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 4px; cursor: pointer; transition: 0.2s; position: relative;
+        }
+        .el:hover { transform: scale(1.4); z-index: 10; border-color: white; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+        
+        .num { position: absolute; top: 2px; left: 4px; font-size: 0.6rem; }
+        .sym { font-size: 1.3rem; font-weight: bold; }
+        .mass { font-size: 0.5rem; opacity: 0.8; }
+
+        /* Familles */
+        .alkali { background: var(--alkali); } .alkaline { background: var(--alkaline); }
+        .transition { background: var(--transition); color: #000; } .metalloid { background: var(--metalloid); color: #000; }
+        .nonmetal { background: var(--nonmetal); } .noble { background: var(--noble); }
+    </style>
+</head>
+<body>
+
+    <h1>Tableau Périodique (50 Éléments)</h1>
+
+    <div id="info-box">
+        <div id="default-msg">Cliquez sur un élément pour ses propriétés</div>
+        <div id="details" style="display:none; text-align: center; width: 100%; display: flex; justify-content: space-around;">
+            <div>Nom: <div id="d-name" class="data-val"></div></div>
+            <div>Masse: <div id="d-mass" class="data-val"></div></div>
+            <div>Électronégativité: <div id="d-electro" class="data-val"></div></div>
+        </div>
+    </div>
+
+    <div class="grid" id="table"></div>
+
+    <script>
+        const elements = [
+            {n:1, s:"H", m:1.008, e:2.20, x:1, y:1, c:"nonmetal", name:"Hydrogène"},
+            {n:2, s:"He", m:4.002, e:0, x:18, y:1, c:"noble", name:"Hélium"},
+            {n:3, s:"Li", m:6.941, e:0.98, x:1, y:2, c:"alkali", name:"Lithium"},
+            {n:4, s:"Be", m:9.012, e:1.57, x:2, y:2, c:"alkaline", name:"Béryllium"},
+            {n:5, s:"B", m:10.81, e:2.04, x:13, y:2, c:"metalloid", name:"Bore"},
+            {n:6, s:"C", m:12.01, e:2.55, x:14, y:2, c:"nonmetal", name:"Carbone"},
+            {n:7, s:"N", m:14.00, e:3.04, x:15, y:2, c:"nonmetal", name:"Azote"},
+            {n:8, s:"O", m:15.99, e:3.44, x:16, y:2, c:"nonmetal", name:"Oxygène"},
+            {n:9, s:"F", m:18.99, e:3.98, x:17, y:2, c:"nonmetal", name:"Fluor"},
+            {n:10, s:"Ne", m:20.17, e:0, x:18, y:2, c:"noble", name:"Néon"},
+            {n:11, s:"Na", m:22.98, e:0.93, x:1, y:3, c:"alkali", name:"Sodium"},
+            {n:12, s:"Mg", m:24.30, e:1.31, x:2, y:3, c:"alkaline", name:"Magnésium"},
+            {n:13, s:"Al", m:26.98, e:1.61, x:13, y:3, c:"transition", name:"Aluminium"},
+            {n:14, s:"Si", m:28.08, e:1.90, x:14, y:3, c:"metalloid", name:"Silicium"},
+            {n:15, s:"P", m:30.97, e:2.19, x:15, y:3, c:"nonmetal", name:"Phosphore"},
+            {n:16, s:"S", m:32.06, e:2.58, x:16, y:3, c:"nonmetal", name:"Soufre"},
+            {n:17, s:"Cl", m:35.45, e:3.16, x:17, y:3, c:"nonmetal", name:"Chlore"},
+            {n:18, s:"Ar", m:39.94, e:0, x:18, y:3, c:"noble", name:"Argon"},
+            {n:19, s:"K", m:39.09, e:0.82, x:1, y:4, c:"alkali", name:"Potassium"},
+            {n:20, s:"Ca", m:40.07, e:1.00, x:2, y:4, c:"alkaline", name:"Calcium"},
+            {n:21, s:"Sc", m:44.95, e:1.36, x:3, y:4, c:"transition", name:"Scandium"},
+            {n:22, s:"Ti", m:47.86, e:1.54, x:4, y:4, c:"transition", name:"Titane"},
+            {n:23, s:"V", m:50.94, e:1.63, x:5, y:4, c:"transition", name:"Vanadium"},
+            {n:24, s:"Cr", m:51.99, e:1.66, x:6, y:4, c:"transition", name:"Chrome"},
+            {n:25, s:"Mn", m:54.93, e:1.55, x:7, y:4, c:"transition", name:"Manganèse"},
+            {n:26, s:"Fe", m:55.84, e:1.83, x:8, y:4, c:"transition", name:"Fer"},
+            {n:27, s:"Co", m:58.93, e:1.88, x:9, y:4, c:"transition", name:"Cobalt"},
+            {n:28, s:"Ni", m:58.69, e:1.91, x:10, y:4, c:"transition", name:"Nickel"},
+            {n:29, s:"Cu", m:63.54, e:1.90, x:11, y:4, c:"transition", name:"Cuivre"},
+            {n:30, s:"Zn", m:65.38, e:1.65, x:12, y:4, c:"transition", name:"Zinc"},
+            {n:31, s:"Ga", m:69.72, e:1.81, x:13, y:4, c:"transition", name:"Gallium"},
+            {n:32, s:"Ge", m:72.63, e:2.01, x:14, y:4, c:"metalloid", name:"Germanium"},
+            {n:33, s:"As", m:74.92, e:2.18, x:15, y:4, c:"metalloid", name:"Arsenic"},
+            {n:34, s:"Se", m:78.96, e:2.55, x:16, y:4, c:"nonmetal", name:"Sélénium"},
+            {n:35, s:"Br", m:79.90, e:2.96, x:17, y:4, c:"nonmetal", name:"Brome"},
+            {n:36, s:"Kr", m:83.79, e:3.00, x:18, y:4, c:"noble", name:"Krypton"},
+            {n:37, s:"Rb", m:85.46, e:0.82, x:1, y:5, c:"alkali", name:"Rubidium"},
+            {n:38, s:"Sr", m:87.62, e:0.95, x:2, y:5, c:"alkaline", name:"Strontium"},
+            {n:39, s:"Y", m:88.90, e:1.22, x:3, y:5, c:"transition", name:"Yttrium"},
+            {n:40, s:"Zr", m:91.22, e:1.33, x:4, y:5, c:"transition", name:"Zirconium"},
+            {n:41, s:"Nb", m:92.90, e:1.6, x:5, y:5, c:"transition", name:"Niobium"},
+            {n:42, s:"Mo", m:95.95, e:2.16, x:6, y:5, c:"transition", name:"Molybdène"},
+            {n:43, s:"Tc", m:98, e:1.9, x:7, y:5, c:"transition", name:"Technétium"},
+            {n:44, s:"Ru", m:101.07, e:2.2, x:8, y:5, c:"transition", name:"Ruthénium"},
+            {n:45, s:"Rh", m:102.90, e:2.28, x:9, y:5, c:"transition", name:"Rhodium"},
+            {n:46, s:"Pd", m:106.42, e:2.2, x:10, y:5, c:"transition", name:"Palladium"},
+            {n:47, s:"Ag", m:107.86, e:1.93, x:11, y:5, c:"transition", name:"Argent"},
+            {n:48, s:"Cd", m:112.41, e:1.69, x:12, y:5, c:"transition", name:"Cadmium"},
+            {n:49, s:"In", m:114.81, e:1.78, x:13, y:5, c:"transition", name:"Indium"},
+            {n:50, s:"Sn", m:118.71, e:1.96, x:14, y:5, c:"transition", name:"Étain"}
+            
+        ];
+
+        const table = document.getElementById('table');
+        const details = document.getElementById('details');
+        const defMsg = document.getElementById('default-msg');
+
+        elements.forEach(el => {
+            const div = document.createElement('div');
+            div.className = `el ${el.c}`;
+            div.style.gridColumn = el.x;
+            div.style.gridRow = el.y;
+            div.innerHTML = `<span class="num">${el.n}</span><span class="sym">${el.s}</span><span class="mass">${el.m}</span>`;
+            
+            div.onclick = () => {
+                defMsg.style.display = 'none';
+                details.style.display = 'flex';
+                document.getElementById('d-name').innerText = el.name;
+                document.getElementById('d-mass').innerText = el.m;
+                document.getElementById('d-electro').innerText = el.e === 0 ? "N/A" : el.e;
+            };
+            table.appendChild(div);
+        });
+    </script>
+</body>
+</html>

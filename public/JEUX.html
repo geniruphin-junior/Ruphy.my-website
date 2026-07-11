@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ruphy-Master :Questions Égypte & Actualité</title>
+    <style>
+        :root { --gold: #d4af37; --bg: #020617; --card: #1e293b; --accent: #38bdf8; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 15px; }
+        
+        .status-bar { display: flex; justify-content: space-around; width: 100%; max-width: 800px; background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 20px; border-bottom: 4px solid var(--gold); }
+        .lvl-tag { background: var(--gold); color: black; padding: 4px 12px; border-radius: 6px; font-weight: 900; }
+
+        #game-box { background: var(--card); padding: 30px; border-radius: 20px; width: 100%; max-width: 750px; box-shadow: 0 15px 60px rgba(0,0,0,0.6); text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .progression { width: 100%; height: 12px; background: #000; border-radius: 6px; margin: 20px 0; overflow: hidden; }
+        #fill { height: 100%; background: linear-gradient(to right, var(--gold), #facc15); width: 0%; transition: 0.4s; }
+
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .btn-opt { background: rgba(255,255,255,0.03); border: 1px solid #334155; padding: 18px; border-radius: 12px; cursor: pointer; transition: 0.2s; font-size: 1rem; color: #cbd5e1; }
+        .btn-opt:hover { background: var(--accent); color: black; transform: translateY(-3px); font-weight: bold; }
+        
+        .hidden { display: none; }
+        #end-screen { text-align: center; padding: 40px; }
+        .btn-retry { background: var(--gold); border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+    <div class="status-bar">
+        <div>🏆 Score: <span id="score" style="color:var(--gold); font-weight:bold">0</span></div>
+        <div>🌟 Niveau: <span id="lvl" class="lvl-tag">1 / 5</span></div>
+        <div>📅 <span id="category">Égypte Antique</span></div>
+    </div>
+
+    <div id="game-box">
+        <div class="progression"><div id="fill"></div></div>
+        <h2 id="question">Initialisation du temple...</h2>
+        <div class="options" id="options"></div>
+        <p style="margin-top:20px; opacity:0.5">Question <span id="q-num">1</span> / 100</p>
+    </div>
+
+    <div id="game-box" class="hidden" id="end-screen">
+        <h1 style="color:var(--gold)">🏛️ FIN DE LA QUÊTE</h1>
+        <p style="font-size: 1.8rem">Score Final: <span id="final-score"></span> / 500</p>
+        <div id="rank-msg"></div>
+        <button class="btn-retry" onclick="location.reload()">Recommencer</button>
+    </div>
+
+<script>
+    // --- BANQUE DE DONNÉES (Structure pour 500 questions) ---
+    // Chaque niveau contient 100 questions.
+    const database = {
+        lvl1: [ // Débutant : Égypte & Actu Simple
+            { q: "Quel fleuve était vital pour l'Égypte antique ?", a: ["Le Nil", "Le Tigre", "L'Amazone", "Le Congo"], c: 0 },
+            { q: "Qui a remporté l'Euro 2024 de football ?", a: ["France", "Espagne", "Angleterre", "Allemagne"], c: 1 },
+            { q: "Quelle pyramide est la plus haute ?", a: ["Khéphren", "Khéops", "Mykérinos", "Djoser"], c: 1 },
+            { q: "En quelle année ont eu lieu les JO de Paris ?", a: ["2022", "2023", "2024", "2025"], c: 2 },
+            { q: "Comment s'appelait le papier des Égyptiens ?", a: ["Parchemin", "Papyrus", "Vellum", "Tissu"], c: 1 }
+            // Ajoutez ici les 95 autres...
+        ],
+        lvl2: [ // Intermédiaire
+            { q: "Quel pays a rejoint l'OTAN en mars 2024 ?", a: ["Finlande", "Suède", "Ukraine", "Suisse"], c: 1 },
+            { q: "Quel organe les Égyptiens laissaient-ils dans le corps lors de la momification ?", a: ["Le Cerveau", "Le Foie", "Le Coeur", "Les Poumons"], c: 2 },
+            { q: "Quel monument parisien a rouvert en décembre 2024 ?", a: ["Le Louvre", "Notre-Dame", "Tour Eiffel", "Panthéon"], c: 1 }
+        ],
+        lvl3: [ // Avancé
+            { q: "Qui est le dieu égyptien à tête d'Ibis (sagesse) ?", a: ["Anubis", "Horus", "Thot", "Osiris"], c: 2 },
+            { q: "Quelle est la 'Grande Cause Nationale 2025' en France ?", a: ["Le Sport", "La Santé physique", "Le Climat", "L'Éducation"], c: 1 }
+        ],
+        lvl4: [ // Difficile
+            { q: "Quel pharaon a instauré le culte d'Aton (monothéisme) ?", a: ["Ramsès II", "Akhénaton", "Séti Ier", "Thoutmôsis III"], c: 1 },
+            { q: "Quelle ville accueille l'Exposition Universelle en 2025 ?", a: ["Dubaï", "Osaka", "Paris", "Riyad"], c: 1 }
+        ],
+        lvl5: [ // Expert (Égypte Méconnue & Actu 2025)
+            { q: "Comment les anciens Égyptiens appelaient-ils leur pays ?", a: ["Kemet", "Deshret", "Misr", "Aigyptos"], c: 0 },
+            { q: "Quel pays accueille la COP 30 en 2025 ?", a: ["Brésil", "Chine", "USA", "Égypte"], c: 0 },
+            { q: "Quel vizir a conçu la pyramide à degrés de Saqqarah ?", a: ["Hemiounou", "Imhotep", "Ahmès", "Sennemout"], c: 1 }
+        ]
+    };
+
+    let score = 0, qIdx = 0, allQuestions = [];
+
+    function init() {
+        // On fusionne les niveaux (500 questions au total)
+        allQuestions = [...database.lvl1, ...database.lvl2, ...database.lvl3, ...database.lvl4, ...database.lvl5];
+        render();
+    }
+
+    function render() {
+        const q = allQuestions[qIdx];
+        const level = Math.floor(qIdx / 100) + 1;
+        
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('q-num').innerText = qIdx + 1;
+        document.getElementById('lvl').innerText = `${level} / 5`;
+        document.getElementById('category').innerText = qIdx < 250 ? "🏛️ Histoire Égypte" : "🌍 Actualité 2024-25";
+        
+        const opts = document.getElementById('options');
+        opts.innerHTML = '';
+        q.a.forEach((txt, i) => {
+            const b = document.createElement('div');
+            b.className = 'btn-opt';
+            b.innerText = txt;
+            b.onclick = () => verify(i);
+            opts.appendChild(b);
+        });
+        document.getElementById('fill').style.width = `${(qIdx / 500) * 100}%`;
+    }
+
+    function verify(choice) {
+        if(choice === allQuestions[qIdx].c) score++;
+        document.getElementById('score').innerText = score;
+        
+        qIdx++;
+        if(qIdx < 500 && qIdx < allQuestions.length) render();
+        else finish();
+    }
+
+    function finish() {
+        document.getElementById('game-box').classList.add('hidden');
+        document.getElementById('end-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = score;
+    }
+
+    init();
+</script>
+</body>
+</html>

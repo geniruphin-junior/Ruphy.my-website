@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RUPHY - Voice Intelligence</title>
+    <style>
+      :root {
+        --neon: #00ff41;
+        --bg: #050505;
+      }
+      body {
+        background: var(--bg);
+        color: var(--neon);
+        font-family: "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .vocal-core {
+        text-align: center;
+        border: 1px solid #111;
+        padding: 40px;
+        border-radius: 20px;
+        background: #080808;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
+      }
+      #micBtn {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 2px solid var(--neon);
+        background: transparent;
+        color: var(--neon);
+        font-size: 2rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+      }
+      #micBtn.listening {
+        background: var(--neon);
+        color: #000;
+        box-shadow: 0 0 30px var(--neon);
+        transform: scale(1.1);
+      }
+      #status {
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+        opacity: 0.6;
+      }
+      #transcript {
+        font-size: 1.2rem;
+        min-height: 1.5rem;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+      .log-box {
+        font-size: 0.7rem;
+        color: #008822;
+        text-align: left;
+        border-top: 1px solid #111;
+        padding-top: 10px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vocal-core">
+      <div id="status">SYSTÈME RUPHY : EN ATTENTE</div>
+      <button id="micBtn" onclick="toggleListen()">🎤</button>
+      <div id="transcript">Appuyez pour parler à Ruphy...</div>
+
+      <div class="log-box" id="logs">
+        > RAM: 0.01% <br />
+        > MOTEUR_VOCAL: READY
+      </div>
+    </div>
+
+    <script>
+      const micBtn = document.getElementById("micBtn");
+      const transcriptDiv = document.getElementById("transcript");
+      const statusDiv = document.getElementById("status");
+      const logs = document.getElementById("logs");
+
+      // 1. Configuration de la Voix de Ruphy (Sortie)
+      function ruphyParle(msg) {
+        const speech = new SpeechSynthesisUtterance(msg);
+        speech.lang = "fr-FR";
+        speech.pitch = 0.8; // Voix IA Pro
+        speech.rate = 1.1;
+        window.speechSynthesis.speak(speech);
+      }
+
+      // 2. Configuration de l'écoute (Entrée)
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+      if (recognition) {
+        recognition.lang = "fr-FR";
+        recognition.continuous = false;
+
+        recognition.onstart = () => {
+          micBtn.classList.add("listening");
+          statusDiv.innerText = "RUPHY ÉCOUTE...";
+        };
+
+        recognition.onresult = (event) => {
+          let text = event.results[0][0].transcript;
+          transcriptDiv.innerText = text;
+          analyserCalcul(text);
+        };
+
+        recognition.onend = () => {
+          micBtn.classList.remove("listening");
+          statusDiv.innerText = "ANALYSE TERMINÉE";
+        };
+      }
+
+      function toggleListen() {
+        if (!recognition) return alert("Navigateur non compatible");
+        recognition.start();
+      }
+
+      // 3. Le Cerveau Mathématique Vocal
+      function analyserCalcul(phrase) {
+        // Nettoyage pour le moteur de calcul (Pro Pro Pro)
+        let calcul = phrase
+          .toLowerCase()
+          .replace(/plus/g, "+")
+          .replace(/moins/g, "-")
+          .replace(/fois/g, "*")
+          .replace(/divisé par/g, "/")
+          .replace(/[^0-9+\-*/().^e\s]/g, "");
+
+        try {
+          const res = eval(calcul.replace("^", "**"));
+          logs.innerHTML += `<br>> CALCUL: ${calcul} = ${res}`;
+          ruphyParle(`Maître Ruphin, le résultat est ${res}`);
+        } catch (e) {
+          ruphyParle("Désolé Maître, je n'ai pas compris l'opération.");
+          logs.innerHTML += `<br>> ERREUR_SYNTAXE`;
+        }
+      }
+    </script>
+  </body>
+</html>

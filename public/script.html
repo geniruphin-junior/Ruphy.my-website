@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MASUSU</title>
+    <style>
+      :root {
+        --calc: #00a884;
+        --clair: transparent;
+      }
+      body {
+        background: rgba(0, 0, 0, 0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-style: normal;
+      }
+      h1 {
+        color: rgba(0, 213, 255, 0.555);
+      }
+
+      .calculato {
+        background: radial-gradient(circle at top right, #6981b977, #020617);
+
+        height: 400px;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid;
+      }
+      .calculato:hover {
+        transform: translateY(-20px);
+      }
+      button {
+        padding: 15px;
+        border-radius: 12px;
+        border: none;
+        background: var(--calc);
+        color: white;
+        font-size: 12px;
+      }
+      button:hover {
+        background-color: transparent;
+        transform: translateY(-2px);
+      }
+      .modules {
+        font-weight: bold;
+      }
+      input {
+        padding: 15px;
+        border-radius: 12px;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 22px;
+        text-align: right;
+        margin-bottom: 20px; /* Crée un espace sous l'input */
+      }
+      .font {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 4 colonnes de taille égale */
+        gap: 2px; /* Espace de 10px entre chaque bouton */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculato">
+      <h1>COMPIL RUPHILATOR</h1>
+      <input type="number" id="input" />
+      <div class="font">
+        <button class="number">C</button>
+        <button class="number">1</button>
+        <button class="number">2</button>
+        <button class="number">3</button>
+        <button class="number">4</button>
+        <button class="number">5</button>
+        <button class="number">6</button>
+        <button class="number">7</button>
+        <button class="number">8</button>
+        <button class="number">9</button>
+        <button class="modules">log</button>
+        <button class="modules">Sin</button>
+        <button class="modules">Cos</button>
+        <button class="modules">Tan</button>
+        <button class="sign">!=</button>
+        <button class="sign">^</button>
+        <button class="sign">°</button>
+        <button class="sign">~</button>
+        <button class="sign">+</button>
+        <button class="sign">-</button>
+        <button class="sign">/</button>
+        <button class="sign">.</button>
+        <button style="grid-column: span 2">0</button>
+        <button class="send">=</button>
+      </div>
+    </div>
+  </body>
+</html>
