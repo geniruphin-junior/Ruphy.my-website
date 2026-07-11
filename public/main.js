@@ -13,9 +13,11 @@ const back = document
   .addEventListener("click", () => {
     window.open("https://www.youtube.com/watch?v=Oe421EPjeBE", "_blank");
   });
-const front = document.querySelector("#").addEventListener("click", () => {
-  window.open("", "_blank");
-});
+const front = document
+  .querySelector("#btn-js")
+  .addEventListener("click", () => {
+    window.open("", "_blank");
+  });
 const frontend = document.querySelector("#");
 // Fonction vocale "Pro" pour Ruphy
 function speak(text) {
