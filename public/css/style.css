@@ -21,6 +21,9 @@ button {
   text-transform: uppercase;
   font-family: inherit;
 }
+button:hover {
+  transform: scale(0.8);
+}
 
 * {
   margin: 0;
@@ -49,6 +52,9 @@ nav {
 }
 .time {
   color: var(--accent-blue);
+  margin-bottom: 20px;
+  margin-left: 50%;
+  font-size: larger;
 }
 
 .brand {
@@ -254,4 +260,10 @@ nav {
   text-decoration: none;
   color: #030712;
   font-family: "Courier New", Courier, monospace;
+}
+.menu {
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+  justify-content: center;
 }
