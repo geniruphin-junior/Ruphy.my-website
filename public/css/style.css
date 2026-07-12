@@ -374,3 +374,225 @@ nav {
   flex-direction: row;
   justify-content: center;
 }
+/*=============================
+        PROJECTS SECTION
+==============================*/
+
+#projects {
+  width: min(1400px, 95%);
+  margin: 120px auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.section-header h2 {
+  font-size: 3rem;
+  color: #00d4ff;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.section-header p {
+  max-width: 750px;
+  margin: auto;
+
+  color: #b8c2d0;
+
+  line-height: 1.8;
+
+  font-size: 1.05rem;
+}
+
+/*=============================
+        GRID
+==============================*/
+
+.projects-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+
+  gap: 35px;
+}
+
+/*=============================
+        CARD
+==============================*/
+
+.project-card {
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border-radius: 25px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  border: 1px solid rgba(0, 212, 255, 0.15);
+
+  backdrop-filter: blur(18px);
+
+  transition: 0.45s;
+
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+
+  border-color: #00d4ff;
+
+  box-shadow:
+    0 0 25px rgba(0, 212, 255, 0.2),
+    0 0 60px rgba(0, 212, 255, 0.15);
+}
+
+/*=============================
+        IMAGE
+==============================*/
+
+.project-image {
+  width: 100%;
+
+  height: 220px;
+
+  object-fit: cover;
+
+  transition: 0.5s;
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.06);
+}
+
+/*=============================
+        CONTENT
+==============================*/
+
+.project-content {
+  padding: 25px;
+
+  flex: 1;
+}
+
+.project-content h3 {
+  color: white;
+
+  font-size: 1.5rem;
+
+  margin-bottom: 18px;
+}
+
+.project-content p {
+  color: #c5d1df;
+
+  line-height: 1.8;
+
+  margin-bottom: 30px;
+}
+
+/*=============================
+        BADGES
+==============================*/
+
+.tech-stack {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.tech-stack img {
+  transition: 0.35s;
+}
+
+.tech-stack img:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+/*=============================
+        BUTTONS
+==============================*/
+
+.project-buttons {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 25px;
+}
+
+.project-buttons a,
+.project-buttons button {
+  flex: 1;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  font-weight: 700;
+
+  transition: 0.35s;
+}
+
+/*=============================
+        GITHUB
+==============================*/
+
+.btn-github {
+  background: #181717;
+
+  color: white;
+}
+
+.btn-github:hover {
+  background: #2d2d2d;
+
+  transform: translateY(-4px);
+}
+
+/*=============================
+        PREVIEW
+==============================*/
+
+.btn-preview {
+  background: #00d4ff;
+
+  color: #02131f;
+}
+
+.btn-preview:hover {
+  background: #42e4ff;
+
+  transform: translateY(-4px);
+}
+
+/*=============================
+        RESPONSIVE
+==============================*/
+
+@media (max-width: 768px) {
+  .project-buttons {
+    flex-direction: column;
+  }
+
+  .section-header h2 {
+    font-size: 2.3rem;
+  }
+}

@@ -20,6 +20,8 @@ app.get("/api/info", (req, res) => {
   });
 });
 
+// le port du serveur
+
 app.listen(PORT, () => {
   console.log(
     ` Maitre ruphin le serveur local host du site Ruphy est lancé sur\ http://localhost:${PORT}`,
