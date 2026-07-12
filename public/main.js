@@ -1,12 +1,12 @@
 // Fonction vocale "Pro" pour Ruphy
-function speak(text) {
+const speak = (text) => {
   const synth = window.speechSynthesis;
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = "fr-FR";
   utter.pitch = 0.8; // Voix un peu plus grave et technologique
   utter.rate = 1.1;
   synth.speak(utter);
-}
+};
 
 // Effet de console au chargement
 window.onload = () => {
@@ -15,7 +15,7 @@ window.onload = () => {
     "background: #00d4ff; color: #000; font-weight: bold;",
   );
 };
-function ouvrirLivre(titre, texte) {
+const ouvrirLivre = (titre, texte) => {
   // 1. On cache la grille de cours pour laisser place au livre
   document.querySelector(".grid-container").style.display = "none";
   document.querySelector(".hero").style.display = "none";
@@ -27,14 +27,9 @@ function ouvrirLivre(titre, texte) {
   document.getElementById("contenu-livre").innerText = texte;
 
   speak("Ouverture du livre de " + titre);
-}
+};
 
-function fermerLivre() {
-  document.getElementById("visionneuse-livre").style.display = "none";
-  document.querySelector(".grid-container").style.display = "grid";
-  document.querySelector(".hero").style.display = "block";
-}
-
+f;
 function updateClock() {
   const now = new Date();
   const timeString = now.toLocaleTimeString("fr-FR");
@@ -42,8 +37,3 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock(); // Lance immédiatement
-
-function speak(message) {
-  const utterance = new SpeechSynthesisUtterance(message);
-  window.speechSynthesis.speak(utterance);
-}
