@@ -209,15 +209,18 @@ nav {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
     overflow: hidden;
   }
-  top: 110%;
-  background: #0f172a;
-  min-width: 320px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-  overflow: hidden;
-}
+  #compéteces span {
+    width: 10px;
 
+    height: 10px;
+
+    background: #e42343;
+
+    border-radius: 50%;
+
+    box-shadow: 0 0 12px #e22727;
+  }
+}
 .dropdown-content a {
   color: #94a3b8;
   padding: 15px 20px;
