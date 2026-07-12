@@ -1,24 +1,3 @@
-// definitions des boutons des langages
-const python = document
-  .querySelector("#btn-py")
-  .addEventListener("click", () => {
-    window.open("https://www.youtube.com/watch?v=rfscVS0vtbw", "_blank");
-  });
-
-const cpp = document.querySelector("#btn-cpp").addEventListener("click", () => {
-  window.open("https://www.youtube.com/watch?v=ZzaPdXTrSb8", "_blank");
-});
-const back = document
-  .querySelector("#btn-backend")
-  .addEventListener("click", () => {
-    window.open("https://www.youtube.com/watch?v=Oe421EPjeBE", "_blank");
-  });
-const front = document
-  .querySelector("#btn-js")
-  .addEventListener("click", () => {
-    window.open("", "_blank");
-  });
-const frontend = document.querySelector("#");
 // Fonction vocale "Pro" pour Ruphy
 function speak(text) {
   const synth = window.speechSynthesis;
